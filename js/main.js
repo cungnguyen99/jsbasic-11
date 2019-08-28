@@ -1,4 +1,6 @@
 'use strict';
+var studentIdTmp;
+var editMode = false;
 document.addEventListener('DOMContentLoaded', function() {
     validation.init([
       {
@@ -58,6 +60,18 @@ const Student={
     return this.data
   }
 }
+
+function enableEditMode() {
+  editMode = true;
+}
+
+function disableEditMode() {
+  editMode = false;
+}
+
+function isEditMode() {
+  return editMode == true;
+}
 /**
  * Lúc đầu phải chạy dòng này 1 lần rồi cmt vì phải chạy dòng này nó mới tạo được data trong localstorage
  * rồi khi gọi load ra nó mới có cái để gán, sau đó chạy renderStudents thì chỗ listStudent mới có  dữ liệu
@@ -89,8 +103,23 @@ function renderStudents(){
 }
 
 function submitClickHandle(){
-  getStudentInfoFromInputs()
-  renderStudents()
+   
+  if (isEditMode()) {
+  
+    editStudentHandle();
+
+  } else {
+    
+    var student=getStudentInfoFromInputs()
+
+    Student.add(student)
+
+    Student.save()
+
+    renderStudents()
+
+    studentFormReset()
+  }
 }
 
 function onDeleteStudent(index){
@@ -101,17 +130,37 @@ function onDeleteStudent(index){
 
 function onEditStudent(index) {
 
-  // setInputValue('.student-form .name', Student.data[index].name);
-  // setInputValue('.student-form .age', Student.data[index].age);
-  // setInputValue('.student-form .phone', Student.data[index].phone);
-  // setInputValue('.student-form .email', Student.data[index].email);
-  // setInputValue('.student-form .address', Student.data[index].address);
+  studentIdTmp=index
 
-  Student.edit(index) 
+  var student=Student.data[index]
+
+  setInputValue('.student-form .name', student.name);
+  setInputValue('.student-form .age', student.age);
+  setInputValue('.student-form .phone', student.phone);
+  setInputValue('.student-form .email', student.email);
+  setInputValue('.student-form .address', student.address);
 
   validation.checkAllError();
 
+  enableEditMode();
+
   setHTML('.createStudent', 'Save');
+}
+
+function editStudentHandle() {
+  var student = getStudentInfoFromInputs();
+
+  Student.edit(studentIdTmp, student)
+
+  renderStudents()
+
+  disableEditMode()
+
+  setHTML('.createStudent', 'Create')
+  
+  Student.save()
+
+  studentFormReset()
 }
 
 function getStudentInfoFromInputs() {
@@ -120,16 +169,13 @@ function getStudentInfoFromInputs() {
   var phone = getInputValue('.student-form .phone')
   var email = getInputValue('.student-form .email')
   var address = getInputValue('.student-form .address')
-  Student.add({
+  return {
     name: name,
     age: age,
     phone: phone,
     email: email,
     address: address
-  })
-  Student.save()
-  studentFormReset()
-  renderStudents()
+  }
 }
 
 function getInputValue(selector) {
