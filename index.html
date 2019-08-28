@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+
+    <script>
+        /*******************OBJECT******************/
+        var student={
+            fristName: 'Selena',
+            lastName: 'Gomez',
+            fullNames: function(){
+                //1 thuộc tính gán cho 1 function được gọi là 1 phương thức của obj
+                return this.fristName+' '+this.lastName
+            },
+            /*
+             *get: cú pháp get tên-của key muốn truy cập khác khi nó là 1 phương thức ở chỗ ta sử dụng 
+             *nó như 1 thuộc tính của obj tức chỉ cẩn lấy tên đối tượng chấm đến thuộc tính mà không cần dấu ()
+             */
+            get fullName(){
+                return this.fristName+' '+this.lastName
+            },
+
+            set frist_Name(values){
+                this.fristName=values;
+            }
+        }
+        console.log('Full name befor use method set: ',student.fullName);
+        console.log(student.fullNames());
+        student.frist_Name='Taylor'
+        console.log('Full name after use method set: ',student.fullName);
+    </script>
+</body>
+
+</html>
