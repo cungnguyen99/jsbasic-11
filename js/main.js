@@ -86,14 +86,14 @@ renderStudents()
 
 function renderStudents(){
     const listStudent=Student.list
-    var content=listStudent.map(function(items,index){
+    var content=listStudent.map(function(item,index){
         var html = '';
         html += '<li class="student">'
-        html += '<p><span>Name:</span>' + items.name + '</p>'
-        html += '<p><span>Age:</span>' + items.age + '</p>'
-        html += '<p><span>Phone:</span> ' + items.phone + '</p>'
-        html += '<p><span>Email:</span> ' + items.email + '</p>'
-        html += '<p><span>Addess:</span> ' + items.address + '</p>'
+        html += '<p><span>Name:</span>' + item.name + '</p>'
+        html += '<p><span>Age:</span>' + item.age + '</p>'
+        html += '<p><span>Phone:</span> ' + item.phone + '</p>'
+        html += '<p><span>Email:</span> ' + item.email + '</p>'
+        html += '<p><span>Addess:</span> ' + item.address + '</p>'
         html += '<i class="student-delete" onclick="onDeleteStudent(' + index + ')">X</i>'
         html += '<i class="student-edit" onclick="onEditStudent(' + index + ')">Edit</i>'
         html += '</li>'
